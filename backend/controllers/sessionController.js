@@ -52,7 +52,7 @@ exports.createSession = async (req, res) => {
 // @access Private
 exports.getMySessions = async (req, res) => {
   try {
-    const sessions = await Session.find({ user: req.user._id })
+    const sessions = await Session.find({ user: req.user.id })
       .sort({ createdAt: -1 })
       .populate("questions");
 
@@ -118,7 +118,7 @@ exports.deleteSession = async (req, res) => {
     }
 
     // check if the logged-in user owns this session
-    if (session.user.toString() !== req.user._id) {
+    if (session.user.toString() !== req.user.id) {
       return res.status(401).json({
         success: false,
         message: "Not authorized to delete this session",
@@ -129,7 +129,7 @@ exports.deleteSession = async (req, res) => {
     await Question.deleteMany({ session: session._id });
 
     // then , delete the session itself
-    await session.remove();
+    await session.deleteOne();
 
     res.status(200).json({
       success: true,

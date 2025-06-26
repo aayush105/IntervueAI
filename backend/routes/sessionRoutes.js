@@ -12,11 +12,11 @@ const router = express.Router();
 // Create a new session
 router.post("/", protect, createSession);
 
-// Get a session by ID
-router.get("/:id", protect, getSessionById);
-
 // Get all sessions for the authenticated user
 router.get("/my-sessions", protect, getMySessions);
+
+// Get a session by ID
+router.get("/:id", protect, getSessionById);
 
 // Delete a session by ID
 router.delete("/:id", protect, deleteSession);

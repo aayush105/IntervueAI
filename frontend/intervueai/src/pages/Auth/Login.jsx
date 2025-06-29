@@ -3,11 +3,20 @@ import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { validateEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import toast from "react-hot-toast";
+import LoaderOverlay from "../../components/Loader/LoaderOverlay";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const { updateUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -26,9 +35,23 @@ const Login = ({ setCurrentPage }) => {
     }
 
     setError("");
+    setIsLoading(true);
 
     // login API call
     try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+
+      const { token } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data); // update user context with the logged-in user data
+        toast.success("Login successful!");
+        navigate("/dashboard");
+      }
     } catch (error) {
       if (error.response && error.response.data.message) {
         setError(
@@ -37,11 +60,15 @@ const Login = ({ setCurrentPage }) => {
       } else {
         setError("An unexpected error occurred. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl">
+    <div className="w-full max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl relative">
+      {isLoading && <LoaderOverlay />}
+
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
         <p className="text-gray-600">
@@ -68,22 +95,6 @@ const Login = ({ setCurrentPage }) => {
           icon={FaLock}
         />
 
-        {/* <div className="flex items-center justify-between">
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <span className="ml-2 text-sm text-gray-600">Remember me</span>
-          </label>
-          <button
-            type="button"
-            className="text-sm text-blue-600 hover:text-blue-500 font-medium"
-          >
-            Forgot password?
-          </button>
-        </div> */}
-
         {error && (
           <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
             <p className="text-red-700 text-sm">{error}</p>
@@ -92,16 +103,16 @@ const Login = ({ setCurrentPage }) => {
 
         <button
           type="button"
-          // disabled={isLoading}
+          disabled={isLoading}
           onClick={handleLogin}
           className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center"
         >
-          {/* {isLoading ? (
+          {isLoading ? (
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
           ) : (
             "Sign In"
-          )} */}
-          Sign In
+          )}
+          {/* Sign In */}
         </button>
 
         <div className="text-center">

@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import { validateEmail } from "../../utils/helper";
+import { UserContext } from "../../context/userContext";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import uploadImage from "../../utils/uploadImage";
 
 const SignUp = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState(null);
@@ -12,6 +16,8 @@ const SignUp = ({ setCurrentPage }) => {
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
+
+  const { updateUser } = useContext(UserContext);
 
   // const [isLoading, setIsLoading] = useState(false);
 
@@ -42,6 +48,27 @@ const SignUp = ({ setCurrentPage }) => {
 
     // signup API call
     try {
+      // upload image if present
+      if (profilePic) {
+        const imageUploadResponse = await uploadImage(profilePic);
+
+        profileImageUrl = imageUploadResponse.imageUrl || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name: fullName,
+        email,
+        password,
+        profileImageUrl: profileImageUrl,
+      });
+
+      const { token } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data); // update user context with the signed-up user data
+        navigate("/dashboard");
+      }
     } catch (error) {
       if (error.response && error.response.data.message) {
         setError(
@@ -128,11 +155,3 @@ const SignUp = ({ setCurrentPage }) => {
 };
 
 export default SignUp;
-
-// import React from "react";
-
-// const SignUp = () => {
-//   return <div>SignUp</div>;
-// };
-
-// export default SignUp;

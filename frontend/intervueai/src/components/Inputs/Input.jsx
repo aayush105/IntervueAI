@@ -8,7 +8,15 @@ import {
 } from "react-icons/fa";
 
 // Input Component with improved styling
-const Input = ({ value, onChange, label, placeholder, type, icon: Icon }) => {
+const Input = ({
+  value,
+  onChange,
+  label,
+  placeholder,
+  type,
+  icon: Icon,
+  required = false,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -18,7 +26,7 @@ const Input = ({ value, onChange, label, placeholder, type, icon: Icon }) => {
   return (
     <div className="mb-4">
       <label className="block text-sm font-medium text-gray-700 mb-2">
-        {label}
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
 
       <div className="relative">

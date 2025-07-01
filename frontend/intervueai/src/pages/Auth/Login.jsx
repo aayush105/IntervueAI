@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import LoaderOverlay from "../../components/Loader/LoaderOverlay";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = React.useState("");
@@ -95,17 +96,13 @@ const Login = ({ setCurrentPage }) => {
           icon={FaLock}
         />
 
-        {error && (
-          <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
-            <p className="text-red-700 text-sm">{error}</p>
-          </div>
-        )}
+        {error && <ErrorMessage error={error} />}
 
         <button
           type="button"
           disabled={isLoading}
           onClick={handleLogin}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center"
+          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 cursor-pointer text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center"
         >
           {isLoading ? (
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

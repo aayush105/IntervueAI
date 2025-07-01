@@ -8,6 +8,7 @@ import { UserContext } from "../../context/userContext";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import uploadImage from "../../utils/uploadImage";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const SignUp = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState(null);
@@ -123,15 +124,11 @@ const SignUp = ({ setCurrentPage }) => {
             icon={FaLock}
           />
 
-          {error && (
-            <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
-              <p className="text-red-700 text-sm">{error}</p>
-            </div>
-          )}
+          {error && <ErrorMessage error={error} />}
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center"
+            className="w-full bg-blue-600 hover:bg-blue-700 cursor-pointer disabled:bg-blue-400 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center"
           >
             Sign Up
           </button>

@@ -17,7 +17,7 @@ export const API_PATHS = {
   },
 
   SESSION: {
-    CREATE: "/api/sessions/create", // start a new interview session
+    CREATE: "/api/sessions", // start a new interview session
     GET_ALL: "/api/sessions/my-sessions", // get all saved sessions
     GET_ONE: (id) => `/api/sessions/${id}`, // fetch session by id
     DELETE: (id) => `/api/sessions/${id}`, // remove session by id

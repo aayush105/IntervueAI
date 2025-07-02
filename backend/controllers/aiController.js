@@ -14,9 +14,9 @@ const ai = new GoogleGenAI({
 
 const generateInterviewQuestions = async (req, res) => {
   try {
-    const { role, experience, topicToFocus, numberOfQuestions } = req.body;
+    const { role, experience, topicsToFocus, numberOfQuestions } = req.body;
 
-    if (!role || !experience || !topicToFocus || !numberOfQuestions) {
+    if (!role || !experience || !topicsToFocus || !numberOfQuestions) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -26,7 +26,7 @@ const generateInterviewQuestions = async (req, res) => {
     const prompt = questionAnswerPrompt(
       role,
       experience,
-      topicToFocus,
+      topicsToFocus,
       numberOfQuestions
     );
 

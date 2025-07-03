@@ -20,6 +20,7 @@ const RoleInfoHeader = ({
                   <p className="text-sm font-medium text-gray-900 mt-1">
                     {topicsToFocus}
                   </p>
+                  <p className="text-gray-500 text-xs">{description}</p>
                 </div>
               </div>
             </div>

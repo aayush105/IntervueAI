@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import { AnimatePresence, motion } from "framer-motion";
@@ -9,6 +9,9 @@ import { API_PATHS } from "../../utils/apiPaths";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import RoleInfoHeader from "./components/RoleInfoHeader";
 import QuestionCard from "../../components/Cards/QuestionCard";
+import AIResponsePreview from "./components/AIResponsePreview";
+import Drawer from "../../components/Drawer";
+import SkeletonLoading from "../../components/Loader/SkeletonLoading";
 
 const InterviewPrep = () => {
   const { sessionId } = useParams();
@@ -44,13 +47,101 @@ const InterviewPrep = () => {
   };
 
   // generate concept explanation
-  const generateConceptExplanation = async (question) => {};
+  const generateConceptExplanation = async (question) => {
+    try {
+      setErrorMsg("");
+      setExplanation(null);
+
+      setIsLoading(true);
+      setOpenLearnMoreDrawer(true);
+
+      const response = await axiosInstance.post(
+        API_PATHS.AI.GENERATE_EXPLANATION,
+        {
+          question,
+        }
+      );
+
+      if (response.data && response.data.success) {
+        setExplanation(response.data.data);
+      }
+    } catch (error) {
+      setExplanation(null);
+      setErrorMsg(
+        error?.response?.data?.message ||
+          "Failed to generate explanation. Please try again."
+      );
+      console.error("Error generating explanation:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // pin question
-  const toggleQuestionPinStatus = async (questionId) => {};
+  const toggleQuestionPinStatus = async (questionId) => {
+    try {
+      const response = await axiosInstance.post(
+        API_PATHS.QUESTION.PIN(questionId)
+      );
+
+      console.log("Pin response", response);
+
+      if (response.data && response.data.success) {
+        // toast.success("Question pin status updated successfully.");
+        fetchSessionDataByID();
+      }
+    } catch (error) {
+      console.error("Error toggling pin status:", error);
+      setErrorMsg(
+        error?.response?.data?.message ||
+          "An error occurred while updating pin status."
+      );
+      toast.error(errorMsg);
+    }
+  };
 
   // add more question to a session
-  const addMoreQuestions = async () => {};
+  const addMoreQuestions = async () => {
+    try {
+      setErrorMsg("");
+      setIsUpdateLoader(true);
+
+      // call AI API to generate more questions
+      const aiResponse = await axiosInstance.post(
+        API_PATHS.AI.GENERATE_QUESTIONS,
+        {
+          role: sessionData?.role || "",
+          topicsToFocus: sessionData?.topicsToFocus || "",
+          experience: sessionData?.experience || "",
+          numberOfQuestions: 10,
+        }
+      );
+
+      // should be array line [{question, answer}, ...]
+      const generatedQuestions = aiResponse?.data?.data || [];
+
+      const response = await axiosInstance.post(
+        API_PATHS.QUESTION.ADD_TO_SESSION,
+        {
+          sessionId,
+          questions: generatedQuestions,
+        }
+      );
+
+      if (response.data && response.data.success) {
+        toast.success("Questions added successfully.");
+        fetchSessionDataByID();
+      }
+    } catch (error) {
+      if (error.response && error?.response?.data?.message) {
+        setErrorMsg(error.response.data.message);
+      } else {
+        setErrorMsg("An error occurred while adding questions.");
+      }
+    } finally {
+      setIsUpdateLoader(false);
+    }
+  };
 
   useEffect(() => {
     if (sessionId) {
@@ -64,6 +155,11 @@ const InterviewPrep = () => {
 
   return (
     <DashboardLayout>
+      {errorMsg && (
+        <p className="flex gap-2 text-sm text-amber-600 font-medium">
+          <LuCircleAlert className="mt-1" /> {errorMsg}
+        </p>
+      )}
       <RoleInfoHeader
         role={sessionData?.role || ""}
         topicsToFocus={sessionData?.topicsToFocus || ""}
@@ -114,12 +210,50 @@ const InterviewPrep = () => {
                         isPinned={data.isPinned}
                         onTogglePin={() => toggleQuestionPinStatus(data._id)}
                       />
+
+                      {!isLoading &&
+                        sessionData?.questions.length == index + 1 && (
+                          <div className="flex items-center justify-center mt-5">
+                            <button
+                              className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rounded text-nowrap cursor-pointer"
+                              disabled={isLoading || isUpdateLoader}
+                              onClick={addMoreQuestions}
+                            >
+                              {isUpdateLoader ? (
+                                <div>Loading..</div>
+                              ) : (
+                                <LuListCollapse className="text-lg" />
+                              )}{" "}
+                              Load More
+                            </button>
+                          </div>
+                        )}
                     </>
                   </motion.div>
                 );
               })}
             </AnimatePresence>
           </div>
+        </div>
+
+        <div>
+          <Drawer
+            isOpen={openLearnMoreDrawer}
+            onClose={() => setOpenLearnMoreDrawer(false)}
+            title={!isLoading && explanation?.title}
+          >
+            {errorMsg && (
+              <p className="flex gap-2 text-sm text-amber-600 font-medium">
+                <LuCircleAlert className="mt-1" /> {errorMsg}
+              </p>
+            )}
+
+            {isLoading && <SkeletonLoading />}
+
+            {!isLoading && explanation && (
+              <AIResponsePreview content={explanation?.explanation} />
+            )}
+          </Drawer>
         </div>
       </div>
     </DashboardLayout>

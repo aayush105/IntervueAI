@@ -1,3 +1,11 @@
+import {
+  LuBookmark,
+  LuBrain,
+  LuLightbulb,
+  LuShield,
+  LuTarget,
+} from "react-icons/lu";
+
 export const CARD_BG = [
   { id: 1, bgcolor: "linear-gradient(135deg, #e6f8f3 0%, #f7fcfa 100%)" },
   { id: 2, bgcolor: "linear-gradient(135deg, #fef9e7 0%, #fffdf4 100%)" },
@@ -14,32 +22,42 @@ export const CARD_BG = [
 export const APP_FEATURES = [
   {
     id: "01",
-    title: "Tailored Just for You",
+    title: "AI-Powered Question Generation",
     description:
-      "Our AI-driven platform customizes interview questions based on your unique profile, ensuring a personalized experience.",
+      "Get personalized interview questions tailored to your target role, experience level, and industry focus areas.",
+    icon: LuBrain,
+    iconClass: "text-blue-500",
   },
   {
     id: "02",
-    title: "Learn at Your Own Pace",
+    title: "Smart Session Management",
     description:
-      "With our flexible scheduling, you can practice interviews at your convenience, fitting seamlessly into your busy life.",
+      "Create focused prep sessions with role-specific scenarios, track your progress, and resume where you left off.",
+    icon: LuTarget,
+    iconClass: "text-green-500",
   },
   {
     id: "03",
-    title: "Capture Your Insights",
+    title: "Bookmark & Organize",
     description:
-      "Add personal notes to any questions and pin important ones to the top - making your preparation more effective.",
+      "Pin important questions, add personal notes, and build your custom study library for maximum retention.",
+    icon: LuBookmark,
+    iconClass: "text-purple-500",
   },
   {
     id: "04",
-    title: 'Understand the "Why" Behind Answers',
+    title: "Deep Learning Insights",
     description:
-      "Our platform provides detailed explanations for each question, helping you grasp the reasoning behind the answers.",
+      "Unlock detailed explanations for every question with our 'Learn More' feature - understand the why behind each answer.",
+    icon: LuLightbulb,
+    iconClass: "text-yellow-500",
   },
   {
     id: "05",
-    title: "Save, Organize and Revisit",
+    title: "Secure & Private",
     description:
-      "Easily save your interview sets, organize them easily in your dashboard, and pick up your practice where you left off.",
+      "Your prep data is protected with enterprise-grade JWT authentication and secure cloud storage.",
+    icon: LuShield,
+    iconClass: "text-red-500",
   },
 ];

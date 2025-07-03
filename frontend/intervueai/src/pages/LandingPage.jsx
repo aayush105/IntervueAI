@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import HERO_IMG from "../assets/hero_img.jpg";
+import HERO_IMG from "../assets/hero_img.png";
+import LOGO_ICON from "../assets/IntervueAI.png";
 import { useState } from "react";
 import { LuSparkles } from "react-icons/lu";
 import { APP_FEATURES } from "../utils/data";
@@ -33,7 +34,8 @@ const LandingPage = () => {
         <div className="container mx-auto px-4 pt-6 pb-[200px] relative z-10">
           {/* header */}
           <header className="flex justify-between items-center mb-16">
-            <div className="text-xl text-black font-bold">IntervueAI</div>
+            {/* <div className="text-xl text-black font-bold">IntervueAI</div> */}
+            <img src={LOGO_ICON} alt="Hero Image" className="w-28 sm:w-40" />
             {user ? (
               <ProfileInfoCard />
             ) : (
@@ -100,36 +102,29 @@ const LandingPage = () => {
                 Features That Make You Shine
               </h2>
 
-              <div className="flex flex-col items-center gap-8">
-                {/* first 3 cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-                  {APP_FEATURES.slice(0, 3).map((feature) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {APP_FEATURES.map(
+                  (
+                    { id, title, description, icon: Icon, iconClass },
+                    index
+                  ) => (
                     <div
-                      key={feature.id}
-                      className="bg-[#FFFEF8] p-6 rounded-xl shadow-xs hover:shadow-lg shadow-amber-100 transition border border-amber-100"
+                      key={id}
+                      className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-lg hover:shadow-xl border border-white/20 transition-all duration-300 hover:transform hover:scale-105 group"
+                      style={{ animationDelay: `${index * 100}ms` }}
                     >
-                      <h3 className="text-base font-semibold mb-3">
-                        {feature.title}
+                      <div className="mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <Icon className={`w-8 h-8 ${iconClass}`} />
+                      </div>
+                      <h3 className="text-xl font-bold mb-4 text-gray-800">
+                        {title}
                       </h3>
-                      <p className="text-gray-600">{feature.description}</p>
+                      <p className="text-gray-600 leading-relaxed">
+                        {description}
+                      </p>
                     </div>
-                  ))}
-                </div>
-
-                {/* remaining 2 cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {APP_FEATURES.slice(3).map((feature) => (
-                    <div
-                      key={feature.id}
-                      className="bg-[#FFFEF8] p-6 rounded-xl shadow-xs hover:shadow-lg shadow-amber-100 transition border border-amber-100"
-                    >
-                      <h3 className="text-base font-semibold mb-3">
-                        {feature.title}
-                      </h3>
-                      <p className="text-gray-600">{feature.description}</p>
-                    </div>
-                  ))}
-                </div>
+                  )
+                )}
               </div>
             </section>
           </div>

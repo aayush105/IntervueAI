@@ -10,6 +10,7 @@ import LoaderOverlay from "../../components/Loader/LoaderOverlay";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 import ErrorMessage from "../../components/ErrorMessage";
+import LOGO_ICON_BLACK from "../../assets/logo_black.png";
 
 const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = React.useState("");
@@ -67,17 +68,25 @@ const Login = ({ setCurrentPage }) => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl relative">
+    <div className="p-8">
       {isLoading && <LoaderOverlay />}
 
-      <div className="text-center mb-8">
+      <div className="text-center mb-6">
+        <div className="flex justify-center">
+          <img
+            src={LOGO_ICON_BLACK}
+            alt="Hero Image"
+            className="w-28 sm:w-40"
+          />
+        </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
         <p className="text-gray-600">
           Sign in to your account to continue to IntervueAI.
         </p>
       </div>
 
-      <div className="space-y-6">
+      {/* form */}
+      <form onSubmit={handleLogin} className="space-y-4">
         <Input
           value={email}
           onChange={({ target }) => setEmail(target.value)}
@@ -99,32 +108,30 @@ const Login = ({ setCurrentPage }) => {
         {error && <ErrorMessage error={error} />}
 
         <button
-          type="button"
+          type="submit"
           disabled={isLoading}
-          onClick={handleLogin}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 cursor-pointer text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center"
+          className="w-full  cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-xl transition-all transform hover:scale-[1.02] flex items-center justify-center shadow-lg"
         >
           {isLoading ? (
-            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
           ) : (
             "Sign In"
           )}
-          {/* Sign In */}
         </button>
 
-        <div className="text-center">
+        <div className="text-center pt-4 border-t border-gray-100">
           <p className="text-gray-600">
             Don't have an account?{" "}
             <button
               type="button"
-              className="text-blue-600 cursor-pointer hover:text-blue-500 font-semibold"
+              className="text-emerald-600 hover:text-emerald-700 cursor-pointer font-semibold transition-colors"
               onClick={() => setCurrentPage("signup")}
             >
               Sign Up
             </button>
           </p>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

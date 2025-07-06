@@ -41,7 +41,7 @@ const Input = ({
           placeholder={placeholder}
           className={`block w-full ${
             Icon ? "pl-10" : "pl-4"
-          } pr-12 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200`}
+          } pr-12 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200`}
           value={value}
           onChange={(e) => onChange(e)}
         />

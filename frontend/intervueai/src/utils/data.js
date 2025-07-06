@@ -1,10 +1,6 @@
-import {
-  LuBookmark,
-  LuBrain,
-  LuLightbulb,
-  LuShield,
-  LuTarget,
-} from "react-icons/lu";
+import { RiBookOpenFill, RiBrainFill, RiShieldCheckFill } from "react-icons/ri";
+import { TbTargetArrow } from "react-icons/tb";
+import { BsBookmarkStar } from "react-icons/bs";
 
 export const CARD_BG = [
   { id: 1, bgcolor: "linear-gradient(135deg, #e6f8f3 0%, #f7fcfa 100%)" },
@@ -25,39 +21,34 @@ export const APP_FEATURES = [
     title: "AI-Powered Question Generation",
     description:
       "Get personalized interview questions tailored to your target role, experience level, and industry focus areas.",
-    icon: LuBrain,
-    iconClass: "text-blue-500",
+    icon: RiBrainFill,
   },
   {
     id: "02",
-    title: "Smart Session Management",
+    icon: TbTargetArrow,
+    title: "Role-Specific Preparation",
     description:
-      "Create focused prep sessions with role-specific scenarios, track your progress, and resume where you left off.",
-    icon: LuTarget,
-    iconClass: "text-green-500",
+      "Practice with questions designed for your specific job role - from software engineering to product management.",
   },
   {
     id: "03",
-    title: "Bookmark & Organize",
-    description:
-      "Pin important questions, add personal notes, and build your custom study library for maximum retention.",
-    icon: LuBookmark,
-    iconClass: "text-purple-500",
-  },
-  {
-    id: "04",
+    icon: RiBookOpenFill,
     title: "Deep Learning Insights",
     description:
       "Unlock detailed explanations for every question with our 'Learn More' feature - understand the why behind each answer.",
-    icon: LuLightbulb,
-    iconClass: "text-yellow-500",
+  },
+  {
+    id: "04",
+    title: "Smart Organization",
+    description:
+      "Pin important questions, add personal notes, and build your custom study library for maximum retention.",
+    icon: BsBookmarkStar,
   },
   {
     id: "05",
     title: "Secure & Private",
     description:
-      "Your prep data is protected with enterprise-grade JWT authentication and secure cloud storage.",
-    icon: LuShield,
-    iconClass: "text-red-500",
+      "Your data is protected with enterprise-grade security. Practice with confidence knowing your information is safe.",
+    icon: RiShieldCheckFill,
   },
 ];

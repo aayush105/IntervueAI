@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import { AnimatePresence, motion } from "framer-motion";
-import { LuCircleAlert, LuListCollapse } from "react-icons/lu";
+import { LuCircleAlert, LuListCollapse, LuSparkles } from "react-icons/lu";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -12,6 +12,7 @@ import QuestionCard from "../../components/Cards/QuestionCard";
 import AIResponsePreview from "./components/AIResponsePreview";
 import Drawer from "../../components/Drawer";
 import SkeletonLoading from "../../components/Loader/SkeletonLoading";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const InterviewPrep = () => {
   const { sessionId } = useParams();
@@ -155,105 +156,112 @@ const InterviewPrep = () => {
 
   return (
     <DashboardLayout>
-      {errorMsg && (
-        <p className="flex gap-2 text-sm text-amber-600 font-medium">
-          <LuCircleAlert className="mt-1" /> {errorMsg}
-        </p>
-      )}
-      <RoleInfoHeader
-        role={sessionData?.role || ""}
-        topicsToFocus={sessionData?.topicsToFocus || ""}
-        experience={sessionData?.experience || "-"}
-        questions={sessionData?.questions.length || "-"}
-        description={sessionData?.description || "-"}
-        lastUpdated={
-          sessionData?.updatedAt
-            ? moment(sessionData?.updatedAt).format("Do MMM YYYY")
-            : ""
-        }
-      />
+      <div className="bg-gradient-to-br from-emerald-50 to-teal-50">
+        {errorMsg && <ErrorMessage error={errorMsg} />}
 
-      <div className="container mx-auto pt-4 pb-4 px-4 md:px-0">
-        <h2 className="text-lg font-semibold color-black">Interview Q & A</h2>
-
-        <div className="grid grid-cols-12 gap-4 mt-5 mb-10">
-          <div
-            className={`col-span-12 ${
-              openLearnMoreDrawer ? "md:col-span-7" : "md:col-span-8"
-            }`}
-          >
-            <AnimatePresence>
-              {sessionData?.questions?.map((data, index) => {
-                return (
-                  <motion.div
-                    key={data._id || index}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{
-                      duration: 0.4,
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 15,
-                      delay: index * 0.1,
-                    }}
-                    layout // this is the key prop that animate position changes
-                    layoutId={`question-${data._id || index}`} // helps framer track the element
-                  >
-                    <>
-                      <QuestionCard
-                        question={data.question}
-                        answer={data.answer}
-                        onLearnMore={() =>
-                          generateConceptExplanation(data.question)
-                        }
-                        isPinned={data.isPinned}
-                        onTogglePin={() => toggleQuestionPinStatus(data._id)}
-                      />
-
-                      {!isLoading &&
-                        sessionData?.questions.length == index + 1 && (
-                          <div className="flex items-center justify-center mt-5">
-                            <button
-                              className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rounded text-nowrap cursor-pointer"
-                              disabled={isLoading || isUpdateLoader}
-                              onClick={addMoreQuestions}
-                            >
-                              {isUpdateLoader ? (
-                                <div>Loading..</div>
-                              ) : (
-                                <LuListCollapse className="text-lg" />
-                              )}{" "}
-                              Load More
-                            </button>
-                          </div>
-                        )}
-                    </>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
+        <RoleInfoHeader
+          role={sessionData?.role || ""}
+          topicsToFocus={sessionData?.topicsToFocus || ""}
+          experience={sessionData?.experience || "-"}
+          questions={sessionData?.questions.length || "-"}
+          description={sessionData?.description || "-"}
+          lastUpdated={
+            sessionData?.updatedAt
+              ? moment(sessionData?.updatedAt).format("Do MMM YYYY")
+              : ""
+          }
+        />
+        <div className="container mx-auto pt-4 pb-4 px-4 md:px-0">
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">
+              Interview Q & A
+            </h2>
+            <div className="flex items-center gap-2 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
+              <LuSparkles className="w-4 h-4" />
+              AI Generated
+            </div>
           </div>
-        </div>
 
-        <div>
-          <Drawer
-            isOpen={openLearnMoreDrawer}
-            onClose={() => setOpenLearnMoreDrawer(false)}
-            title={!isLoading && explanation?.title}
-          >
-            {errorMsg && (
-              <p className="flex gap-2 text-sm text-amber-600 font-medium">
-                <LuCircleAlert className="mt-1" /> {errorMsg}
-              </p>
-            )}
+          <div className="grid grid-cols-12 gap-4 mt-5 mb-10">
+            <div
+              className={`col-span-12 ${
+                openLearnMoreDrawer ? "md:col-span-7" : "md:col-span-8"
+              }`}
+            >
+              <AnimatePresence>
+                {sessionData?.questions?.map((data, index) => {
+                  return (
+                    <motion.div
+                      key={data._id || index}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{
+                        duration: 0.4,
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 15,
+                        delay: index * 0.1,
+                      }}
+                      layout // this is the key prop that animate position changes
+                      layoutId={`question-${data._id || index}`} // helps framer track the element
+                    >
+                      <>
+                        <QuestionCard
+                          question={data.question}
+                          answer={data.answer}
+                          onLearnMore={() =>
+                            generateConceptExplanation(data.question)
+                          }
+                          isPinned={data.isPinned}
+                          onTogglePin={() => toggleQuestionPinStatus(data._id)}
+                        />
 
-            {isLoading && <SkeletonLoading />}
+                        {!isLoading &&
+                          sessionData?.questions.length == index + 1 && (
+                            <div className="flex items-center justify-center mt-8">
+                              <button
+                                className="flex items-center gap-3 text-sm text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-6 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={isLoading || isUpdateLoader}
+                                onClick={addMoreQuestions}
+                              >
+                                {isUpdateLoader ? (
+                                  <div className="flex items-center gap-2">
+                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                    Loading...
+                                  </div>
+                                ) : (
+                                  <>
+                                    <LuListCollapse className="text-lg" />
+                                    Load More Questions
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          )}
+                      </>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
+          </div>
 
-            {!isLoading && explanation && (
-              <AIResponsePreview content={explanation?.explanation} />
-            )}
-          </Drawer>
+          <div>
+            <Drawer
+              isOpen={openLearnMoreDrawer}
+              onClose={() => setOpenLearnMoreDrawer(false)}
+              title={!isLoading && explanation?.title}
+            >
+              {errorMsg && <ErrorMessage error={errorMsg} />}
+
+              {isLoading && <SkeletonLoading />}
+
+              {!isLoading && explanation && (
+                <AIResponsePreview content={explanation?.explanation} />
+              )}
+            </Drawer>
+          </div>
         </div>
       </div>
     </DashboardLayout>

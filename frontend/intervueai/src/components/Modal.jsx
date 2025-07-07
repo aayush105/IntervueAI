@@ -7,7 +7,7 @@ const Modal = ({ children, isOpen, onClose, title, hideHeader }) => {
   return (
     <div className="fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-black/60 backdrop-blur-sm p-4">
       {/* modal content */}
-      <div className="relative flex flex-col bg-white shadow-2xl rounded-2xl overflow-hidden max-w-md w-full border border-gray-100">
+      <div className="relative flex flex-col bg-white shadow-2xl rounded-2xl overflow-hidden custom-scrollbar max-w-md w-full border border-gray-100">
         {/* modal header */}
         {!hideHeader && title && (
           <div className="flex items-center justify-between px-8 pt-6 pb-2 border-b border-gray-200">

@@ -5,7 +5,6 @@ import LOGO_ICON_WHITE from "../assets/logo_white.png";
 import LOGO_ICON_2 from "../assets/logo.png";
 import LOGO_ICON_1 from "../assets/IntervueAi_1.png";
 import { useState } from "react";
-import { LuSparkles } from "react-icons/lu";
 import { APP_FEATURES } from "../utils/data";
 import Modal from "../components/Modal";
 import SignUp from "./Auth/SignUp";

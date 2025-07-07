@@ -16,7 +16,7 @@ const QuestionCard = ({
   useEffect(() => {
     if (isExpanded) {
       const contentHeight = contentRef.current.scrollHeight;
-      setHeight(contentHeight + 10);
+      setHeight(contentHeight + 20);
     } else {
       setHeight(0);
     }
@@ -28,15 +28,15 @@ const QuestionCard = ({
 
   return (
     <>
-      <div className="bg-white rounded-lg mb-4 overflow-hidden py-4 px-5 shadow-xl shadow-gray-100/70 border border-gray-100/60 group">
-        <div className="flex items-start justify-between cursor-pointer">
-          <div className="flex items-start gap-3.5">
-            <span className="text-xs md:text-[15px] font-semibold text-gray-400 leading-[18px]">
-              Q
-            </span>
+      <div className="bg-white rounded-2xl mb-6 overflow-hidden py-6 px-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-emerald-100 group hover:border-emerald-200">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-7 h-7 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <span className="text-sm font-bold text-white">Q</span>
+            </div>
 
             <h3
-              className="text-xs md:text-[14px] font-medium text-gray-800 mr-0 md:mr-20"
+              className="text-sm md:text-base font-medium text-gray-800 mr-0 md:mr-20 leading-relaxed cursor-pointer hover:text-gray-900 transition-colors"
               onClick={toggleExpand}
             >
               {question}
@@ -50,7 +50,13 @@ const QuestionCard = ({
               }`}
             >
               <button
-                className="flex items-center gap-2 text-xs text-indigo-800 font-medium bg-indigo-50 px-3 py-1 mr-2 rounded text-nowrap border border-indigo-50 hover:border-indigo-200 cursor-pointer"
+                className={`flex items-center gap-2 text-xs font-medium cursor-pointer px-3 py-2 mr-2 rounded-lg border transition-all ${
+                  isPinned
+                    ? "text-emerald-700 bg-emerald-50 border-emerald-200 hover:bg-emerald-100"
+                    : "text-gray-600 bg-gray-50 border-gray-200 hover:bg-gray-100"
+                  // : "text-indigo-800 bg-indigo-50 border-indigo-200 hover:bg-indigo-100"
+                }`}
+                // className="flex items-center gap-2 text-xs text-indigo-800 font-medium bg-indigo-50 px-3 py-1 mr-2 rounded text-nowrap border border-indigo-50 hover:border-indigo-200 cursor-pointer"
                 onClick={onTogglePin}
               >
                 {isPinned ? (
@@ -61,7 +67,7 @@ const QuestionCard = ({
               </button>
 
               <button
-                className="flex items-center gap-2 text-xs text-cyan-800 font-medium bg-cyan-50 px-3 py-1 mr-2 rounded text-nowrap border border-cyan-50 hover:border-cyan-200 cursor-pointer"
+                className="flex items-center text-nowrap gap-2 text-xs text-teal-700 font-medium bg-teal-50 px-3 py-2 mr-2 cursor-pointer rounded-lg border border-teal-200 hover:bg-teal-100 hover:border-teal-300 transition-all"
                 onClick={() => {
                   setIsExpanded(true);
                   onLearnMore();
@@ -73,7 +79,7 @@ const QuestionCard = ({
             </div>
 
             <button
-              className="text-gray-400 hover:text-gray-500 cursor-pointer"
+              className="text-gray-400 hover:text-emerald-600 cursor-pointer p-1 rounded-full hover:bg-emerald-50 transition-all"
               onClick={toggleExpand}
             >
               <LuChevronDown
@@ -92,8 +98,17 @@ const QuestionCard = ({
         >
           <div
             ref={contentRef}
-            className="mt-4 text-gray-700 bg-gray-50 px-5 py-3 rounded-lg"
+            className="mt-4 text-gray-700 bg-gray-50 px-6 py-4 rounded-xl"
+            // className="mt-6 text-gray-700 bg-emerald-50 px-6 py-4 rounded-xl border border-emerald-100"
           >
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-6 h-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
+                <span className="text-xs font-bold text-white">A</span>
+              </div>
+              <span className="text-sm font-medium text-emerald-700">
+                Answer
+              </span>
+            </div>
             <AIResponsePreview content={answer} />
           </div>
         </div>

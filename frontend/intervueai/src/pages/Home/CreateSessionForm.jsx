@@ -5,6 +5,8 @@ import { FaBriefcase, FaClock, FaListAlt, FaStickyNote } from "react-icons/fa";
 import ErrorMessage from "../../components/ErrorMessage";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
+import { RiSparklingFill, RiTimeFill } from "react-icons/ri";
+import LOGO_ICON_BLACK from "../../assets/logo_black.png";
 
 const CreateSessionForm = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +33,7 @@ const CreateSessionForm = () => {
 
     const { role, experience, topicsToFocus } = formData;
 
-    console.log("formData", formData);
+    // console.log("formData", formData);
 
     if (!role || !experience || !topicsToFocus) {
       setError("Please fill in all required fields.");
@@ -76,16 +78,26 @@ const CreateSessionForm = () => {
   };
 
   return (
-    <div className="w-[90vw] md:w-[35vw] p-7 flex flex-col justify-center">
-      <h3 className="text-lg font-semibold text-black">
-        Start a New Interview Journey
-      </h3>
-      <p className="text-xs text-slate-700 mt-[5px] mb-3">
-        Fill out a few details and unlock your personalized interview set of
-        interview questions.
-      </p>
+    <div className="p-8 max-w-md mx-auto">
+      {/* Header */}
+      <div className="text-center mb-6">
+        <div className="flex justify-center">
+          <img
+            src={LOGO_ICON_BLACK}
+            alt="Hero Image"
+            className="w-28 sm:w-40"
+          />
+        </div>
 
-      <form onSubmit={handleCreateSession} className="flex flex-col gap-3">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          Start New Session
+        </h2>
+        <p className="text-gray-600">
+          Create your personalized AI-powered interview preparation session
+        </p>
+      </div>
+
+      <form onSubmit={handleCreateSession} className="space-y-4">
         <Input
           value={formData.role}
           onChange={({ target }) => handleChange("role", target.value)}
@@ -94,26 +106,30 @@ const CreateSessionForm = () => {
           type="text"
           required
           icon={FaBriefcase}
+          disabled={isLoading}
         />
 
         <Input
           value={formData.experience}
           onChange={({ target }) => handleChange("experience", target.value)}
           label="Years of Experience"
-          placeholder="e.g. 1 years, 3 years, 5+ years, etc."
+          placeholder="e.g. 3"
           type="number"
           required
           icon={FaClock}
+          disabled={isLoading}
         />
 
         <Input
           value={formData.topicsToFocus}
           onChange={({ target }) => handleChange("topicsToFocus", target.value)}
           label="Topics to Focus On"
-          placeholder="e.g. Data Structures, Algorithms, System Design, etc.(comma separated)"
+          placeholder="e.g. Data Structures, Algorithms, System Design (comma separated)"
           type="text"
           required
           icon={FaListAlt}
+          textArea={true}
+          disabled={isLoading}
         />
 
         <Input
@@ -123,19 +139,40 @@ const CreateSessionForm = () => {
           placeholder="Any specific goals or notes for the interview?"
           type="text"
           icon={FaStickyNote}
+          textArea={true}
+          rows={4}
+          disabled={isLoading}
         />
 
         {error && <ErrorMessage error={error} />}
 
         <button
           type="submit"
-          className={`w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 cursor-pointer text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center ${
-            isLoading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-xl transition-all transform hover:scale-[1.02] flex items-center justify-center shadow-lg"
           disabled={isLoading}
         >
-          {isLoading ? "Creating..." : "Create Session"}
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              Creating Session...
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <RiSparklingFill className="w-5 h-5" />
+              Create AI Session
+            </div>
+          )}
         </button>
+
+        {/* info note */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center">
+          <div className="flex items-center justify-center gap-2 text-emerald-700 text-sm">
+            <RiSparklingFill className="w-4 h-4" />
+            <span className="font-medium">
+              AI will generate 10 personalized questions for you
+            </span>
+          </div>
+        </div>
       </form>
     </div>
   );

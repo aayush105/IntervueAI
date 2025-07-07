@@ -85,7 +85,8 @@ const Dashboard = () => {
         </div>
 
         <button
-          className="h-12 md:h-12 flex items-center justify-center gap-3 bg-linear-to-r from-[#FF9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-orange-300 fixed bottom-20 right-10 md:right-20"
+          className="gap-2 cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-xl transition-all transform hover:scale-[1.02] flex items-center justify-center shadow-lg fixed bottom-20 right-10 md:right-20"
+          // className="h-12 md:h-12 flex items-center justify-center gap-3 bg-linear-to-r from-[#FF9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-orange-300 fixed bottom-20 right-10 md:right-20"
           onClick={() => setOpenCreateModal(true)}
         >
           <LuPlus className="text-2xl text-white" />
@@ -112,7 +113,7 @@ const Dashboard = () => {
         }}
         title="Delete Alert"
       >
-        <div className="w-[30vw]">
+        <div>
           <DeleteAlertContent
             content="Are you sure you want to delete this session?"
             onDelete={() => deleteSession(openDeleteAlert?.data)}

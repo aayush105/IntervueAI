@@ -69,7 +69,7 @@ const Login = ({ setCurrentPage }) => {
 
   return (
     <div className="p-8">
-      {isLoading && <LoaderOverlay />}
+      {/* {isLoading && <LoaderOverlay />} */}
 
       <div className="text-center mb-6">
         <div className="flex justify-center">
@@ -94,6 +94,7 @@ const Login = ({ setCurrentPage }) => {
           placeholder="Enter your email"
           label="Email Address"
           icon={FaEnvelope}
+          disabled={isLoading}
         />
 
         <Input
@@ -103,6 +104,7 @@ const Login = ({ setCurrentPage }) => {
           placeholder="Enter your password"
           label="Password"
           icon={FaLock}
+          disabled={isLoading}
         />
 
         {error && <ErrorMessage error={error} />}

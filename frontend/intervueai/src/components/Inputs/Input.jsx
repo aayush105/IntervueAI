@@ -16,6 +16,9 @@ const Input = ({
   type,
   icon: Icon,
   required = false,
+  textArea = false,
+  rows = 3,
+  disabled = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -30,21 +33,39 @@ const Input = ({
       </label>
 
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <div
+          className={`absolute left-0 pl-3 flex ${
+            textArea ? "items-start pt-4" : "inset-y-0 items-center"
+          } pointer-events-none`}
+        >
           {Icon && <Icon className="h-5 w-5 text-gray-400" />}
         </div>
 
-        <input
-          type={
-            type === "password" ? (showPassword ? "text" : "password") : type
-          }
-          placeholder={placeholder}
-          className={`block w-full ${
-            Icon ? "pl-10" : "pl-4"
-          } pr-12 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200`}
-          value={value}
-          onChange={(e) => onChange(e)}
-        />
+        {textArea ? (
+          <textarea
+            value={value}
+            onChange={(e) => onChange(e)}
+            placeholder={placeholder}
+            rows={rows}
+            disabled={disabled}
+            className={`block w-full ${
+              Icon ? "pl-10" : "pl-4"
+            } pr-12 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200`}
+          />
+        ) : (
+          <input
+            type={
+              type === "password" ? (showPassword ? "text" : "password") : type
+            }
+            disabled={disabled}
+            placeholder={placeholder}
+            className={`block w-full ${
+              Icon ? "pl-10" : "pl-4"
+            } pr-12 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200`}
+            value={value}
+            onChange={(e) => onChange(e)}
+          />
+        )}
 
         {type === "password" && (
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center">

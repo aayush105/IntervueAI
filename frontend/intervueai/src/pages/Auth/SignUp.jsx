@@ -114,6 +114,7 @@ const SignUp = ({ setCurrentPage }) => {
           placeholder="Enter full name"
           label="Full Name"
           icon={FaUser}
+          disabled={isLoading}
         />
 
         <Input
@@ -123,6 +124,7 @@ const SignUp = ({ setCurrentPage }) => {
           placeholder="Enter your email"
           label="Email Address"
           icon={FaEnvelope}
+          disabled={isLoading}
         />
 
         <Input
@@ -132,6 +134,7 @@ const SignUp = ({ setCurrentPage }) => {
           placeholder="Enter your password"
           label="Password"
           icon={FaLock}
+          disabled={isLoading}
         />
 
         {error && <ErrorMessage error={error} />}

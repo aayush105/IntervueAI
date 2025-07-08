@@ -1,4 +1,5 @@
 require("dotenv").config();
+const job = require("./config/cron");
 
 const express = require("express");
 const cors = require("cors");
@@ -16,6 +17,9 @@ const {
 } = require("./controllers/aiController");
 
 const app = express();
+
+// start cron job
+job.start();
 
 // middleware to handle CORS
 app.use(

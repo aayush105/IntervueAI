@@ -18,24 +18,24 @@ const ProfileInfoCard = () => {
 
   return (
     user && (
-      <div className="flex items-center bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-2 rounded-full gap-3 hover:bg-white/20 transition-all">
+      <div className="flex items-center bg-white/10 backdrop-blur-sm border border-white/20 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full gap-3 hover:bg-white/20 transition-all">
         <img
           src={user.profileImageUrl}
           alt={user.name}
-          className="w-8 h-8 rounded-full object-cover border-2 border-white/30"
+          className="w-7 sm:w-8 h-7 sm:h-8 rounded-full object-cover border-2 border-white/30"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = "/default-avatar.png";
           }}
         />
 
-        <span className="font-medium text-white whitespace-nowrap">
+        <span className="font-medium text-sm sm:text-base text-white whitespace-nowrap">
           {user.name}
         </span>
 
         <button
           onClick={handleLogout}
-          className="text-xs font-medium text-white bg-red-500/80 hover:bg-red-500 px-3 py-1 rounded-full transition-all"
+          className="text-[11px] sm:text-xs font-medium text-white bg-red-500/80 hover:bg-red-500 px-3 py-1 rounded-full transition-all"
         >
           Logout
         </button>

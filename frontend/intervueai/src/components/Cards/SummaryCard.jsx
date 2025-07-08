@@ -54,7 +54,7 @@ const SummaryCard = ({
 
       <div className="px-6 pb-6">
         {/* Improved responsive layout */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-4 mb-4">
+        <div className="flex flex-col md:flex-row md:items-center sm:justify-between gap-3 mt-4 mb-4">
           <div className="flex flex-wrap items-center gap-3">
             <div className="text-xs font-medium text-emerald-700 bg-emerald-50 px-3 py-1.5 border border-emerald-200 rounded-full flex items-center gap-1">
               <LuClock className="w-3 h-3" />
@@ -73,9 +73,11 @@ const SummaryCard = ({
           </div>
         </div>
 
-        <p className="text-sm text-gray-600 font-medium line-clamp-2 leading-relaxed">
-          {description}
-        </p>
+        {description && description.trim() !== "" && (
+          <p className="text-sm text-gray-600 font-medium line-clamp-2 leading-relaxed">
+            {description}
+          </p>
+        )}
       </div>
     </div>
   );

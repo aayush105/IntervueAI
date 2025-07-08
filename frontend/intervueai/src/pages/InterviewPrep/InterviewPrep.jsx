@@ -13,6 +13,8 @@ import AIResponsePreview from "./components/AIResponsePreview";
 import Drawer from "../../components/Drawer";
 import SkeletonLoading from "../../components/Loader/SkeletonLoading";
 import ErrorMessage from "../../components/ErrorMessage";
+import RoleInfoHeaderSkeleton from "../../components/Loader/RoleInfoHeaderSkeleton";
+import QuestionCardSkeleton from "../../components/Loader/QuestionCardSkeleton";
 
 const InterviewPrep = () => {
   const { sessionId } = useParams();
@@ -24,12 +26,16 @@ const InterviewPrep = () => {
   const [explanation, setExplanation] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingSession, setIsLoadingSession] = useState(false);
   const [isUpdateLoader, setIsUpdateLoader] = useState(false);
 
   // fetch session data by sessionId
-  const fetchSessionDataByID = async () => {
-    setErrorMsg("");
+  const fetchSessionDataByID = async (showLoader = true) => {
     try {
+      setErrorMsg("");
+
+      if (showLoader) setIsLoadingSession(true);
+
       const response = await axiosInstance.get(
         API_PATHS.SESSION.GET_ONE(sessionId)
       );
@@ -44,8 +50,13 @@ const InterviewPrep = () => {
           "An error occurred while fetching session data."
       );
       toast.error(errorMsg);
+    } finally {
+      if (showLoader) setIsLoadingSession(false);
     }
   };
+
+  // helper to fetch session data without loader
+  const refetchSessionData = () => fetchSessionDataByID(false);
 
   // generate concept explanation
   const generateConceptExplanation = async (question) => {
@@ -89,7 +100,7 @@ const InterviewPrep = () => {
 
       if (response.data && response.data.success) {
         // toast.success("Question pin status updated successfully.");
-        fetchSessionDataByID();
+        await refetchSessionData();
       }
     } catch (error) {
       console.error("Error toggling pin status:", error);
@@ -131,7 +142,7 @@ const InterviewPrep = () => {
 
       if (response.data && response.data.success) {
         toast.success("Questions added successfully.");
-        fetchSessionDataByID();
+        await refetchSessionData();
       }
     } catch (error) {
       if (error.response && error?.response?.data?.message) {
@@ -146,7 +157,7 @@ const InterviewPrep = () => {
 
   useEffect(() => {
     if (sessionId) {
-      fetchSessionDataByID();
+      fetchSessionDataByID(true);
     }
 
     return () => {};
@@ -159,18 +170,22 @@ const InterviewPrep = () => {
       <div className="bg-gradient-to-br from-emerald-50 to-teal-50">
         {errorMsg && <ErrorMessage error={errorMsg} />}
 
-        <RoleInfoHeader
-          role={sessionData?.role || ""}
-          topicsToFocus={sessionData?.topicsToFocus || ""}
-          experience={sessionData?.experience || "-"}
-          questions={sessionData?.questions.length || "-"}
-          description={sessionData?.description || "-"}
-          lastUpdated={
-            sessionData?.updatedAt
-              ? moment(sessionData?.updatedAt).format("Do MMM YYYY")
-              : ""
-          }
-        />
+        {isLoadingSession ? (
+          <RoleInfoHeaderSkeleton />
+        ) : (
+          <RoleInfoHeader
+            role={sessionData?.role}
+            topicsToFocus={sessionData?.topicsToFocus}
+            experience={sessionData?.experience}
+            questions={sessionData?.questions.length}
+            description={sessionData?.description}
+            lastUpdated={
+              sessionData?.updatedAt
+                ? moment(sessionData?.updatedAt).format("Do MMM YYYY")
+                : ""
+            }
+          />
+        )}
         <div className="container mx-auto pt-4 pb-4 px-4 md:px-0">
           <div className="flex items-center gap-3 mb-6">
             <h2 className="text-2xl font-bold text-gray-900">
@@ -189,60 +204,66 @@ const InterviewPrep = () => {
               }`}
             >
               <AnimatePresence>
-                {sessionData?.questions?.map((data, index) => {
-                  return (
-                    <motion.div
-                      key={data._id || index}
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{
-                        duration: 0.4,
-                        type: "spring",
-                        stiffness: 100,
-                        damping: 15,
-                        delay: index * 0.1,
-                      }}
-                      layout // this is the key prop that animate position changes
-                      layoutId={`question-${data._id || index}`} // helps framer track the element
-                    >
-                      <>
-                        <QuestionCard
-                          question={data.question}
-                          answer={data.answer}
-                          onLearnMore={() =>
-                            generateConceptExplanation(data.question)
-                          }
-                          isPinned={data.isPinned}
-                          onTogglePin={() => toggleQuestionPinStatus(data._id)}
-                        />
+                {isLoadingSession
+                  ? Array.from({ length: 5 }).map((_, index) => (
+                      <QuestionCardSkeleton key={index} />
+                    ))
+                  : sessionData?.questions?.map((data, index) => {
+                      return (
+                        <motion.div
+                          key={data._id || index}
+                          initial={{ opacity: 0, y: -20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          transition={{
+                            duration: 0.4,
+                            type: "spring",
+                            stiffness: 100,
+                            damping: 15,
+                            delay: index * 0.1,
+                          }}
+                          layout // this is the key prop that animate position changes
+                          layoutId={`question-${data._id || index}`} // helps framer track the element
+                        >
+                          <>
+                            <QuestionCard
+                              question={data.question}
+                              answer={data.answer}
+                              onLearnMore={() =>
+                                generateConceptExplanation(data.question)
+                              }
+                              isPinned={data.isPinned}
+                              onTogglePin={() =>
+                                toggleQuestionPinStatus(data._id)
+                              }
+                            />
 
-                        {!isLoading &&
-                          sessionData?.questions.length == index + 1 && (
-                            <div className="flex items-center justify-center mt-8">
-                              <button
-                                className="flex items-center gap-3 text-sm text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-6 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                                disabled={isLoading || isUpdateLoader}
-                                onClick={addMoreQuestions}
-                              >
-                                {isUpdateLoader ? (
-                                  <div className="flex items-center gap-2">
-                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                    Loading...
-                                  </div>
-                                ) : (
-                                  <>
-                                    <LuListCollapse className="text-lg" />
-                                    Load More Questions
-                                  </>
-                                )}
-                              </button>
-                            </div>
-                          )}
-                      </>
-                    </motion.div>
-                  );
-                })}
+                            {!isLoading &&
+                              sessionData?.questions.length == index + 1 && (
+                                <div className="flex items-center justify-center mt-8">
+                                  <button
+                                    className="flex items-center gap-3 text-sm text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-6 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled={isLoading || isUpdateLoader}
+                                    onClick={addMoreQuestions}
+                                  >
+                                    {isUpdateLoader ? (
+                                      <div className="flex items-center gap-2">
+                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        Loading...
+                                      </div>
+                                    ) : (
+                                      <>
+                                        <LuListCollapse className="text-lg" />
+                                        Load More Questions
+                                      </>
+                                    )}
+                                  </button>
+                                </div>
+                              )}
+                          </>
+                        </motion.div>
+                      );
+                    })}
               </AnimatePresence>
             </div>
           </div>

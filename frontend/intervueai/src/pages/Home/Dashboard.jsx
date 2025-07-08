@@ -12,13 +12,16 @@ import moment from "moment";
 import Modal from "../../components/Modal";
 import CreateSessionForm from "./CreateSessionForm";
 import DeleteAlertContent from "../../components/DeleteAlertContent";
+import ErrorMessage from "../../components/ErrorMessage";
+import SummaryCardSkeleton from "../../components/Loader/SummaryCardSkeleton";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [sessions, setSessions] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [openDeleteAlert, setOpenDeleteAlert] = useState({
     open: false,
     data: null,
@@ -26,12 +29,20 @@ const Dashboard = () => {
 
   const fetchAllSessions = async () => {
     try {
+      setIsLoading(true);
+      setErrorMsg("");
+
       const response = await axiosInstance.get(API_PATHS.SESSION.GET_ALL);
 
       setSessions(response.data.sessions);
     } catch (error) {
       console.error("Error fetching sessions:", error);
+      setErrorMsg(
+        error?.response?.data?.message || "Failed to fetch sessions."
+      );
       toast.error("Failed to fetch sessions. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -63,25 +74,31 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <div className="container mx-auto pt-4 pb-4">
+        {errorMsg && <ErrorMessage error={errorMsg} />}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-7 pt-1 pb-6 px-4 md:px-0">
-          {sessions?.map((data, index) => (
-            <SummaryCard
-              key={data?._id}
-              colors={CARD_BG[index % CARD_BG.length]}
-              role={data?.role || ""}
-              topicsToFocus={data?.topicsToFocus || ""}
-              experience={data?.experience || ""}
-              questions={data?.questions?.length || "-"}
-              description={data?.description || ""}
-              lastUpdated={
-                data?.updatedAt
-                  ? moment(data.updatedAt).format("Do MMMM YYYY")
-                  : ""
-              }
-              onSelect={() => navigate(`/interview-prep/${data?._id}`)}
-              onDelete={() => setOpenDeleteAlert({ open: true, data })}
-            />
-          ))}
+          {isLoading
+            ? Array.from({ length: 6 }).map((_, idx) => (
+                <SummaryCardSkeleton key={idx} />
+              ))
+            : sessions?.map((data, index) => (
+                <SummaryCard
+                  key={data?._id}
+                  colors={CARD_BG[index % CARD_BG.length]}
+                  role={data?.role || ""}
+                  topicsToFocus={data?.topicsToFocus || ""}
+                  experience={data?.experience || ""}
+                  questions={data?.questions?.length || "-"}
+                  description={data?.description || ""}
+                  lastUpdated={
+                    data?.updatedAt
+                      ? moment(data.updatedAt).format("Do MMMM YYYY")
+                      : ""
+                  }
+                  onSelect={() => navigate(`/interview-prep/${data?._id}`)}
+                  onDelete={() => setOpenDeleteAlert({ open: true, data })}
+                />
+              ))}
         </div>
 
         <button

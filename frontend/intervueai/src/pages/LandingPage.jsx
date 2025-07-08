@@ -2,8 +2,6 @@ import { useNavigate } from "react-router-dom";
 import HERO_IMG from "../assets/hero_img.png";
 import LOGO_ICON_BLACK from "../assets/logo_black.png";
 import LOGO_ICON_WHITE from "../assets/logo_white.png";
-import LOGO_ICON_2 from "../assets/logo.png";
-import LOGO_ICON_1 from "../assets/IntervueAi_1.png";
 import { useState } from "react";
 import { APP_FEATURES } from "../utils/data";
 import Modal from "../components/Modal";
@@ -13,7 +11,6 @@ import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 import ProfileInfoCard from "../components/Cards/ProfileInfoCard";
 import {
-  RiBrainFill,
   RiGithubFill,
   RiLinkedinFill,
   RiMailFill,
@@ -55,7 +52,7 @@ const LandingPage = () => {
               <img
                 src={LOGO_ICON_WHITE}
                 alt="Hero Image"
-                className="w-32 sm:w-52"
+                className="w-28 sm:w-52"
               />
 
               {user ? (
@@ -79,14 +76,14 @@ const LandingPage = () => {
                 Powered by Advanced AI
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
                 Master Your Next
                 <span className="block bg-gradient-to-r from-emerald-400 via-teal-400 to-green-400 bg-clip-text text-transparent">
                   Interview
                 </span>
               </h1>
 
-              <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
                 Get AI-generated, role-specific interview questions with
                 detailed explanations. Practice smarter, not harder, and land
                 your dream job with confidence.
@@ -95,11 +92,11 @@ const LandingPage = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={handleCTA}
-                  className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-emerald-600 hover:to-teal-600 transition-all transform hover:scale-105 shadow-lg"
+                  className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-full font-semibold text-base sm:text-lg hover:from-emerald-600 hover:to-teal-600 transition-all transform hover:scale-105 shadow-lg"
                 >
                   Start Practicing Free
                 </button>
-                <button className="border border-white/30 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/10 transition-all">
+                <button className="border border-white/30 text-white px-8 py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-white/10 transition-all">
                   Watch Demo
                 </button>
               </div>
@@ -109,7 +106,7 @@ const LandingPage = () => {
       </div>
 
       {/* hero image section */}
-      <div className="relative -mt-20 z-20">
+      <div className="relative -mt-20 z-20 hidden lg:block">
         <div className="container mx-auto px-6">
           <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 shadow-2xl">
             <img
@@ -122,20 +119,20 @@ const LandingPage = () => {
       </div>
 
       {/* feature section */}
-      <div className="bg-emerald-50 py-20">
+      <div className="bg-emerald-50 py-10 sm:py-20">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
               Everything You Need to Succeed
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
               Our AI-powered platform provides comprehensive interview
               preparation tailored to your career goals and experience level.
             </p>
           </div>
 
           {/* features */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 sm:mb-12">
             {APP_FEATURES.slice(0, 3).map((feature, index) => (
               <div
                 key={feature.id}
@@ -178,18 +175,18 @@ const LandingPage = () => {
       </div>
 
       {/* CTA section */}
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 py-20">
+      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 py-10 sm:py-20">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
             Ready to Ace Your Next Interview?
           </h2>
-          <p className="text-xl text-emerald-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-emerald-100 mb-8 max-w-2xl mx-auto">
             Join thousands of professionals who have successfully landed their
             dream jobs with our AI-powered interview preparation platform.
           </p>
           <button
             onClick={handleCTA}
-            className="bg-white text-emerald-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg"
+            className="bg-white text-emerald-600 px-8 py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg"
           >
             Get Started for Free
           </button>
@@ -197,7 +194,7 @@ const LandingPage = () => {
       </div>
 
       {/* footer */}
-      <footer className="bg-emerald-50 border-t border-emerald-100 py-12">
+      <footer className="bg-emerald-50 border-t border-emerald-100  py-8 sm:py-12">
         <div className="container mx-auto px-6">
           <div className="flex flex-col items-center text-center">
             {/* Brand */}
@@ -206,7 +203,7 @@ const LandingPage = () => {
                 <img
                   src={LOGO_ICON_BLACK}
                   alt="Hero Image"
-                  className="w-28 sm:w-40"
+                  className="w-32 sm:w-40"
                 />
               </div>
               <p className="text-gray-600 max-w-md mx-auto mb-6">
@@ -258,7 +255,7 @@ const LandingPage = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Aayush Shrestha
+                  Er. Aayush Shrestha
                 </a>
               </p>
             </div>

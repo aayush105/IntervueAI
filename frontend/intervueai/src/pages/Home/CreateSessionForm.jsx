@@ -51,7 +51,7 @@ const CreateSessionForm = () => {
           role,
           experience,
           topicsToFocus,
-          numberOfQuestions: 10,
+          numberOfQuestions: 5,
         }
       );
 
@@ -169,7 +169,7 @@ const CreateSessionForm = () => {
           <div className="flex items-center justify-center gap-2 text-emerald-700 text-sm">
             <RiSparklingFill className="w-4 h-4" />
             <span className="font-medium">
-              AI will generate 10 personalized questions for you
+              AI will generate 5 personalized questions for you
             </span>
           </div>
         </div>

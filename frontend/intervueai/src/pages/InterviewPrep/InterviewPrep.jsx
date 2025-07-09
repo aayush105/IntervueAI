@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import { AnimatePresence, motion } from "framer-motion";
-import { LuCircleAlert, LuListCollapse, LuSparkles } from "react-icons/lu";
+import { LuListCollapse, LuSparkles } from "react-icons/lu";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -109,6 +109,35 @@ const InterviewPrep = () => {
           "An error occurred while updating pin status."
       );
       toast.error(errorMsg);
+    }
+  };
+
+  // update question note
+  const updateQuestionNote = async (questionId, note) => {
+    try {
+      const response = await axiosInstance.post(
+        API_PATHS.QUESTION.UPDATE_NOTE(questionId),
+        {
+          note,
+        }
+      );
+
+      if (response.data && response.data.success) {
+        toast.success(
+          note
+            ? response?.data?.message || "Note saved successfully!"
+            : "Note deleted successfully!"
+        );
+        // toast.success(
+        //   response?.data?.message || "Question note updated successfully."
+        // );
+        await refetchSessionData();
+      }
+    } catch (error) {
+      console.error("Error updating question note:", error);
+      toast.error(
+        error?.response?.data?.message || "Failed to update question note."
+      );
     }
   };
 
@@ -229,12 +258,16 @@ const InterviewPrep = () => {
                             <QuestionCard
                               question={data.question}
                               answer={data.answer}
+                              note={data.note}
                               onLearnMore={() =>
                                 generateConceptExplanation(data.question)
                               }
                               isPinned={data.isPinned}
                               onTogglePin={() =>
                                 toggleQuestionPinStatus(data._id)
+                              }
+                              onUpdateNote={(note) =>
+                                updateQuestionNote(data._id, note)
                               }
                             />
 

@@ -72,7 +72,7 @@ const Input = ({
             {showPassword ? (
               <FaRegEye
                 size={20}
-                className="cursor-pointer text-primary"
+                className="cursor-pointer text-emerald-500"
                 onClick={togglePasswordVisibility}
               />
             ) : (

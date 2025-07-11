@@ -4,6 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Home/Dashboard";
 import InterviewPrep from "./pages/InterviewPrep/InterviewPrep";
 import UserProvider from "./context/userContext";
+import { Analytics } from "@vercel/analytics/react";
 
 const App = () => {
   return (
@@ -30,6 +31,8 @@ const App = () => {
             },
           }}
         />
+
+        <Analytics />
       </div>
     </UserProvider>
   );

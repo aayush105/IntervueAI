@@ -15,6 +15,7 @@ import SkeletonLoading from "../../components/Loader/SkeletonLoading";
 import ErrorMessage from "../../components/ErrorMessage";
 import RoleInfoHeaderSkeleton from "../../components/Loader/RoleInfoHeaderSkeleton";
 import QuestionCardSkeleton from "../../components/Loader/QuestionCardSkeleton";
+import PDFExportModal from "./components/PDFExportModal";
 
 const InterviewPrep = () => {
   const { sessionId } = useParams();
@@ -28,6 +29,8 @@ const InterviewPrep = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingSession, setIsLoadingSession] = useState(false);
   const [isUpdateLoader, setIsUpdateLoader] = useState(false);
+
+  const [showPDFModal, setShowPDFModal] = useState(false);
 
   // fetch session data by sessionId
   const fetchSessionDataByID = async (showLoader = true) => {
@@ -192,7 +195,7 @@ const InterviewPrep = () => {
     return () => {};
   }, []);
 
-  console.log("sessionData", sessionData);
+  console.log("sessionData questions", sessionData?.questions);
 
   return (
     <DashboardLayout>
@@ -224,6 +227,12 @@ const InterviewPrep = () => {
               <LuSparkles className="w-4 h-4" />
               AI Generated
             </div>
+            <button
+              onClick={() => setShowPDFModal(true)}
+              className="ml-auto cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 text-white py-3 px-4 rounded-xl transition-all transform hover:scale-[1.02] flex items-center justify-center shadow-lg"
+            >
+              Export as PDF
+            </button>
           </div>
 
           <div className="grid grid-cols-12 gap-4 mt-5 mb-10">
@@ -316,6 +325,22 @@ const InterviewPrep = () => {
               )}
             </Drawer>
           </div>
+
+          {/* <PDFExportModal
+            isOpen={showPDFModal}
+            onClose={() => setShowPDFModal(false)}
+            questions={sessionData?.questions || []}
+            role={sessionData?.role || ""}
+            topicsToFocus={sessionData?.topicsToFocus || ""}
+            experience={sessionData?.experience || ""}
+          /> */}
+
+          <PDFExportModal
+            isOpen={showPDFModal}
+            onClose={() => setShowPDFModal(false)}
+            questions={sessionData?.questions}
+            sessionData={sessionData}
+          />
         </div>
       </div>
     </DashboardLayout>

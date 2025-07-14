@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import { FaBriefcase, FaClock, FaListAlt, FaStickyNote } from "react-icons/fa";
 import ErrorMessage from "../../components/ErrorMessage";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
-import { RiSparklingFill, RiTimeFill } from "react-icons/ri";
+import { RiSparklingFill } from "react-icons/ri";
 import LOGO_ICON_BLACK from "../../assets/logo_black.png";
 
 const CreateSessionForm = () => {
@@ -124,7 +124,7 @@ const CreateSessionForm = () => {
           value={formData.topicsToFocus}
           onChange={({ target }) => handleChange("topicsToFocus", target.value)}
           label="Topics to Focus On"
-          placeholder="e.g. Data Structures, Algorithms, System Design (comma separated)"
+          placeholder="e.g. Data Structures, Algorithms, System Design (comma separated 2-3 topics)"
           type="text"
           required
           icon={FaListAlt}

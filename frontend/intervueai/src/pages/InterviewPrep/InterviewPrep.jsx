@@ -219,28 +219,30 @@ const InterviewPrep = () => {
           />
         )}
         <div className="container mx-auto pt-4 pb-4 px-4 md:px-0">
-          <div className="flex items-center gap-3 mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Interview Q & A
-            </h2>
-            <div className="flex items-center gap-2 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
-              <LuSparkles className="w-4 h-4" />
-              AI Generated
-            </div>
-            <button
-              onClick={() => setShowPDFModal(true)}
-              className="ml-auto cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 text-white py-3 px-4 rounded-xl transition-all transform hover:scale-[1.02] flex items-center justify-center shadow-lg"
-            >
-              Export as PDF
-            </button>
-          </div>
-
           <div className="grid grid-cols-12 gap-4 mt-5 mb-10">
             <div
               className={`col-span-12 ${
                 openLearnMoreDrawer ? "md:col-span-7" : "md:col-span-8"
               }`}
             >
+              <div className="flex flex-col sm:flex-row justify-between gap-2 sm:items-center mb-6">
+                <div className="flex items-center gap-3">
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    Interview Q & A
+                  </h2>
+                  <div className="flex items-center gap-2 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
+                    <LuSparkles className="w-4 h-4" />
+                    AI Generated
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowPDFModal(true)}
+                  className="cursor-pointer bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 text-white py-3 px-4 rounded-xl transition-all transform hover:scale-[1.02] flex items-center justify-center shadow-lg"
+                >
+                  Export as PDF
+                </button>
+              </div>
+
               <AnimatePresence>
                 {isLoadingSession
                   ? Array.from({ length: 5 }).map((_, index) => (
@@ -325,15 +327,6 @@ const InterviewPrep = () => {
               )}
             </Drawer>
           </div>
-
-          {/* <PDFExportModal
-            isOpen={showPDFModal}
-            onClose={() => setShowPDFModal(false)}
-            questions={sessionData?.questions || []}
-            role={sessionData?.role || ""}
-            topicsToFocus={sessionData?.topicsToFocus || ""}
-            experience={sessionData?.experience || ""}
-          /> */}
 
           <PDFExportModal
             isOpen={showPDFModal}

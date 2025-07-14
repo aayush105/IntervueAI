@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LuChevronDown, LuPin, LuPinOff, LuSparkles } from "react-icons/lu";
 import AIResponsePreview from "../../pages/InterviewPrep/components/AIResponsePreview";
 import { MdEditSquare, MdStickyNote2 } from "react-icons/md";
@@ -14,11 +14,11 @@ const QuestionCard = ({
   note,
   onUpdateNote,
 }) => {
-  const [isExpanded, setIsExpanded] = React.useState(false);
-  const [height, setHeight] = React.useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [height, setHeight] = useState(0);
   const contentRef = useRef(null);
 
-  const [showNoteModal, setShowNoteModal] = React.useState(false);
+  const [showNoteModal, setShowNoteModal] = useState(false);
 
   useEffect(() => {
     if (isExpanded) {
@@ -36,7 +36,7 @@ const QuestionCard = ({
   return (
     <>
       <div className="bg-white rounded-2xl mb-6 overflow-hidden py-6 px-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-emerald-100 group hover:border-emerald-200">
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-start gap-2 justify-between">
           <div className="flex items-center gap-4">
             <div className="w-7 h-7 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-sm font-bold text-white">Q</span>

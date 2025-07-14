@@ -1,4 +1,3 @@
-import React from "react";
 import { LuBookOpen, LuClock, LuTarget, LuTrash2 } from "react-icons/lu";
 import { getInitials } from "../../utils/helper";
 

@@ -1,5 +1,5 @@
-import React, { useContext, useRef } from "react";
-import { LuDownload, LuFileText } from "react-icons/lu";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { LuDownload, LuFileText, LuTrash2 } from "react-icons/lu";
 import AIResponsePreview from "./AIResponsePreview";
 import LOGO_ICON_BLACK from "../../../assets/logo_black.png";
 import LOGO_ICON_WHITE from "../../../assets/logo_white.png";
@@ -13,8 +13,20 @@ import { RiCloseFill } from "react-icons/ri";
 // PDF Export Modal Component
 const PDFExportModal = ({ isOpen, onClose, questions, sessionData }) => {
   const contentRef = useRef(null);
-
   const { user } = useContext(UserContext);
+
+  const [modalQuestions, setModalQuestions] = useState(questions || []);
+
+  useEffect(() => {
+    if (isOpen) {
+      setModalQuestions(questions);
+    }
+  }, [isOpen, questions]);
+
+  // handle delete question from modal
+  const handleDeleteQuestion = (questionId) => {
+    setModalQuestions((prev) => prev.filter((q) => q._id !== questionId));
+  };
 
   const handleExportPDF = () => {
     const printWindow = window.open("", "_blank");
@@ -90,7 +102,7 @@ const PDFExportModal = ({ isOpen, onClose, questions, sessionData }) => {
                 </div>
                 <div class="info-item">
                   <div class="info-label">Total Questions</div>
-                  <div class="info-value">${questions?.length}</div>
+                  <div class="info-value">${modalQuestions?.length}</div>
                 </div>
                 <div class="info-item">
                   <div class="info-label">Prepared By</div>
@@ -150,7 +162,7 @@ const PDFExportModal = ({ isOpen, onClose, questions, sessionData }) => {
               <div>
                 <h2 className="text-xl font-bold">Export Interview Q&A</h2>
                 <p className="text-emerald-100 text-sm">
-                  {sessionData?.role} • {questions?.length} Questions
+                  {sessionData?.role} • {modalQuestions?.length} Questions
                 </p>
               </div>
             </div>
@@ -166,51 +178,71 @@ const PDFExportModal = ({ isOpen, onClose, questions, sessionData }) => {
 
         {/* Content - All questions without pagination */}
         <div className="p-6 overflow-y-auto" style={{ maxHeight: "60vh" }}>
-          <div ref={contentRef} className="space-y-6">
-            {questions.map((question) => (
-              <div
-                key={question._id}
-                className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm"
-              >
-                {/* Question */}
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-7 h-7 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-sm font-bold text-white">Q</span>
-                  </div>
-                  <h3 className="text-base font-semibold text-gray-800 leading-relaxed">
-                    {question.question}
-                  </h3>
-                </div>
+          {modalQuestions.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-gray-400 text-lg mb-2">
+                No question selected
+              </div>
+              <p className="text-gray-500 text-sm">
+                Add some questions to export as PDF
+              </p>
+            </div>
+          ) : (
+            <div ref={contentRef} className="space-y-6">
+              {modalQuestions.map((question) => (
+                <div
+                  key={question._id}
+                  className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm relative group"
+                >
+                  {/* delete button */}
+                  <button
+                    className="absolute top-4 right-4 p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
+                    onClick={() => handleDeleteQuestion(question._id)}
+                    title="Remove from PDF"
+                  >
+                    <LuTrash2 className="w-4 h-4" />
+                  </button>
 
-                {/* Answer */}
-                <div className="ml-11 bg-gray-50 p-4 rounded-xl">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-6 h-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
-                      <span className="text-xs font-bold text-white">A</span>
+                  {/* Question */}
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-7 h-7 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-sm font-bold text-white">Q</span>
                     </div>
-                    <span className="text-sm font-medium text-emerald-700">
-                      Answer
-                    </span>
+                    <h3 className="text-base font-semibold text-gray-800 leading-relaxed">
+                      {question.question}
+                    </h3>
                   </div>
-                  <AIResponsePreview content={question.answer} />
-                </div>
 
-                {/* Note if exists */}
-                {question.note && (
-                  <div className="ml-11 mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-sm font-medium text-amber-700">
-                        📝 Your Note
+                  {/* Answer */}
+                  <div className="ml-11 bg-gray-50 p-4 rounded-xl">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-6 h-6 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">A</span>
+                      </div>
+                      <span className="text-sm font-medium text-emerald-700">
+                        Answer
                       </span>
                     </div>
-                    <p className="text-sm text-amber-800 leading-relaxed">
-                      {question.note}
-                    </p>
+                    <AIResponsePreview content={question.answer} />
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
+
+                  {/* Note if exists */}
+                  {question.note && (
+                    <div className="ml-11 mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-sm font-medium text-amber-700">
+                          📝 Your Note
+                        </span>
+                      </div>
+                      <p className="text-sm text-amber-800 leading-relaxed">
+                        {question.note}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Footer - Simplified without pagination */}
@@ -218,7 +250,12 @@ const PDFExportModal = ({ isOpen, onClose, questions, sessionData }) => {
           <div className="flex items-center justify-between">
             {/* Total Questions Info */}
             <div className="text-sm text-gray-600">
-              Total Questions: {questions?.length}
+              Selected Questions: {modalQuestions?.length}
+              {modalQuestions?.length !== questions?.length && (
+                <span className="text-amber-600 ml-2">
+                  ({questions?.length - modalQuestions?.length} removed)
+                </span>
+              )}
             </div>
 
             {/* Export Button */}

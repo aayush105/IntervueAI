@@ -1,6 +1,10 @@
 import { RiBookOpenFill, RiBrainFill, RiShieldCheckFill } from "react-icons/ri";
 import { TbTargetArrow } from "react-icons/tb";
-import { BsBookmarkStar } from "react-icons/bs";
+import {
+  BsBookmarkStar,
+  BsFileEarmarkPdfFill,
+  BsPencilSquare,
+} from "react-icons/bs";
 
 export const CARD_BG = [
   { id: 1, bgcolor: "linear-gradient(135deg, #e6f8f3 0%, #f7fcfa 100%)" },
@@ -28,27 +32,34 @@ export const APP_FEATURES = [
     icon: TbTargetArrow,
     title: "Role-Specific Preparation",
     description:
-      "Practice with questions designed for your specific job role - from software engineering to product management.",
+      "Practice with questions designed for your specific job role, from software engineering to product management.",
   },
   {
     id: "03",
     icon: RiBookOpenFill,
     title: "Deep Learning Insights",
     description:
-      "Unlock detailed explanations for every question with our 'Learn More' feature - understand the why behind each answer.",
+      "Unlock detailed explanations for every question with our 'Learn More' feature, understand the why behind each answer.",
   },
   {
     id: "04",
     title: "Smart Organization",
     description:
-      "Pin important questions, add personal notes, and build your custom study library for maximum retention.",
+      "Pin important questions, add personal notes to track what you've learned, and build your custom study library for maximum retention.",
     icon: BsBookmarkStar,
   },
+  // {
+  //   id: "05",
+  //   title: "Secure & Private",
+  //   description:
+  //     "Your data is protected with enterprise-grade security. Practice with confidence knowing your information is safe.",
+  //   icon: RiShieldCheckFill,
+  // },
   {
     id: "05",
-    title: "Secure & Private",
+    title: "Export Sessions to PDF",
     description:
-      "Your data is protected with enterprise-grade security. Practice with confidence knowing your information is safe.",
-    icon: RiShieldCheckFill,
+      "Easily export questions and answers from any session to a PDF. Remove questions you don’t need and save your personalized practice sets offline.",
+    icon: BsFileEarmarkPdfFill,
   },
 ];

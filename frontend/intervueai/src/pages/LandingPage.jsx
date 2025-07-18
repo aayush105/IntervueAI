@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import HERO_IMG from "../assets/hero_img.png";
-import LOGO_ICON_BLACK from "../assets/logo_black.png";
-import LOGO_ICON_WHITE from "../assets/logo_white.png";
+// import LOGO_ICON_BLACK from "../assets/logo_black.png";
+// import LOGO_ICON_WHITE from "../assets/logo_white.png";
+import LOGO_ICON_BLACK from "../assets/IntervueAI-Kalo.png";
+import LOGO_ICON_WHITE from "../assets/IntervueAI-Seto.png";
 import { useState } from "react";
 import { APP_FEATURES } from "../utils/data";
 import Modal from "../components/Modal";
@@ -206,7 +208,7 @@ const LandingPage = () => {
                   className="w-32 sm:w-40"
                 />
               </div>
-              <p className="text-gray-600 max-w-md mx-auto mb-6">
+              <p className="text-gray-600 max-w-md mx-auto my-6">
                 Empowering professionals worldwide with AI-powered interview
                 preparation. Practice smarter, perform better, and land your
                 dream job.
@@ -248,14 +250,14 @@ const LandingPage = () => {
             {/* Copyright */}
             <div className="border-t border-emerald-200 pt-4 w-full">
               <p className="text-gray-500 text-sm">
-                © 2025 IntervueAI — Developed by{" "}
+                © 2025 IntervueAI - Developed by{" "}
                 <a
                   href="https://github.com/aayush105"
                   className="text-emerald-600 hover:text-emerald-700 font-medium"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Er. Aayush Shrestha
+                  Aayush Shrestha
                 </a>
               </p>
             </div>

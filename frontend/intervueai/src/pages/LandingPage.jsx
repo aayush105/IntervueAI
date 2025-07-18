@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import HERO_IMG from "../assets/hero_img.png";
-// import LOGO_ICON_BLACK from "../assets/logo_black.png";
-// import LOGO_ICON_WHITE from "../assets/logo_white.png";
 import LOGO_ICON_BLACK from "../assets/IntervueAI-Kalo.png";
 import LOGO_ICON_WHITE from "../assets/IntervueAI-Seto.png";
 import { useState } from "react";

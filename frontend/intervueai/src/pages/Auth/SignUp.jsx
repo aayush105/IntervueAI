@@ -9,7 +9,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import uploadImage from "../../utils/uploadImage";
 import ErrorMessage from "../../components/ErrorMessage";
-import LOGO_ICON_BLACK from "../../assets/logo_black.png";
+import LOGO_ICON_BLACK from "../../assets/IntervueAI-Kalo.png";
 
 const SignUp = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState(null);
@@ -88,7 +88,7 @@ const SignUp = ({ setCurrentPage }) => {
   return (
     <div className="p-8">
       <div className="text-center mb-6">
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <img
             src={LOGO_ICON_BLACK}
             alt="Hero Image"

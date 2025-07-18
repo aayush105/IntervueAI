@@ -6,11 +6,10 @@ import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import toast from "react-hot-toast";
-import LoaderOverlay from "../../components/Loader/LoaderOverlay";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 import ErrorMessage from "../../components/ErrorMessage";
-import LOGO_ICON_BLACK from "../../assets/logo_black.png";
+import LOGO_ICON_BLACK from "../../assets/IntervueAI-Kalo.png";
 
 const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
@@ -72,7 +71,7 @@ const Login = ({ setCurrentPage }) => {
       {/* {isLoading && <LoaderOverlay />} */}
 
       <div className="text-center mb-6">
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <img
             src={LOGO_ICON_BLACK}
             alt="Hero Image"

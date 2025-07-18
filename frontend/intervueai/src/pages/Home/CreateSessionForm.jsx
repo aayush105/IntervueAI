@@ -6,7 +6,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { RiSparklingFill } from "react-icons/ri";
-import LOGO_ICON_BLACK from "../../assets/logo_black.png";
+import LOGO_ICON_BLACK from "../../assets/IntervueAI-Kalo.png";
 
 const CreateSessionForm = () => {
   const [formData, setFormData] = useState({
@@ -81,7 +81,7 @@ const CreateSessionForm = () => {
     <div className="p-8 max-w-md mx-auto">
       {/* Header */}
       <div className="text-center mb-6">
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <img
             src={LOGO_ICON_BLACK}
             alt="Hero Image"

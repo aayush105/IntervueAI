@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { LuDownload, LuFileText, LuTrash2 } from "react-icons/lu";
 import AIResponsePreview from "./AIResponsePreview";
-import LOGO_ICON_BLACK from "../../../assets/logo_black.png";
-import LOGO_ICON_WHITE from "../../../assets/logo_white.png";
+import LOGO_ICON_WHITE from "../../../assets/IntervueAI-Seto.png";
 import {
   convertMarkdownToHtml,
   getPDFStyles,

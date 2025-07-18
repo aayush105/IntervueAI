@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LOGO_ICON_BLACK from "../../../assets/logo_black.png";
+import LOGO_ICON_BLACK from "../../../assets/IntervueAI-Kalo.png";
 import Input from "../../../components/Inputs/Input";
 import { FaSave, FaStickyNote, FaTrash } from "react-icons/fa";
 import ErrorMessage from "../../../components/ErrorMessage";

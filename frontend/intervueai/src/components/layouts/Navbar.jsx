@@ -1,6 +1,6 @@
 import ProfileInfoCard from "../Cards/ProfileInfoCard";
 import { Link } from "react-router-dom";
-import LOGO_ICON_WHITE from "../../assets/logo_white.png";
+import LOGO_ICON_WHITE from "../../assets/IntervueAI-Seto.png";
 
 const Navbar = () => {
   return (

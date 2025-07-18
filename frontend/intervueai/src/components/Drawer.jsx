@@ -4,7 +4,7 @@ import { LuSparkles, LuX } from "react-icons/lu";
 const Drawer = ({ isOpen, onClose, title, children }) => {
   return (
     <div
-      className={`fixed top-[85px] right-0 z-40 h-[calc(100dvh-85px)] transition-transform bg-white w-full md:w-[40vw] shadow-2xl border-l border-emerald-100 flex flex-col ${
+      className={`fixed top-[72px] right-0 z-40 h-[calc(100dvh-72px)] transition-transform bg-white w-full md:w-[40vw] shadow-2xl border-l border-emerald-100 flex flex-col ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
       tabIndex="-1"

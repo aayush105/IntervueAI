@@ -92,12 +92,20 @@ const LandingPage = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={handleCTA}
-                  className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-full font-semibold text-base sm:text-lg hover:from-emerald-600 hover:to-teal-600 transition-all transform hover:scale-105 shadow-lg"
+                  className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white cursor-pointer px-8 py-4 rounded-full font-semibold text-base sm:text-lg hover:from-emerald-600 hover:to-teal-600 transition-all transform hover:scale-105 shadow-lg"
                 >
                   Start Practicing Free
                 </button>
-                <button className="border border-white/30 text-white px-8 py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-white/10 transition-all">
-                  Watch Demo
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://github.com/aayush105/IntervueAI",
+                      "_blank"
+                    )
+                  }
+                  className="border border-white/30 text-white cursor-pointer px-8 py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-white/10 transition-all"
+                >
+                  View on GitHub
                 </button>
               </div>
             </div>
@@ -186,7 +194,7 @@ const LandingPage = () => {
           </p>
           <button
             onClick={handleCTA}
-            className="bg-white text-emerald-600 px-8 py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg"
+            className="bg-white text-emerald-600 cursor-pointer px-8 py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg"
           >
             Get Started for Free
           </button>

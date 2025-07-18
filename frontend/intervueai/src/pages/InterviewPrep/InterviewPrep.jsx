@@ -286,7 +286,7 @@ const InterviewPrep = () => {
                               sessionData?.questions.length == index + 1 && (
                                 <div className="flex items-center justify-center mt-8">
                                   <button
-                                    className="flex items-center gap-3 text-sm text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-6 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="flex cursor-pointer items-center gap-3 text-sm text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 px-6 py-3 rounded-xl transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                                     disabled={isLoading || isUpdateLoader}
                                     onClick={addMoreQuestions}
                                   >
